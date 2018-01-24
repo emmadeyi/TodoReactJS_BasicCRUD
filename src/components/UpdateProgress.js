@@ -1,16 +1,21 @@
 import React, { Component } from "react"
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateTask, selectTask } from '../actions';
+import { selectTodo } from '../reducers';
+
 
 class UpdateProgess extends Component{
   updateProgrss(e){
     e.preventDefault();
     let value;
     value = this.refs.newProgress.value;    
-    this.props.updateTask(this.props.task.id, value);
+    this.props.updateTask(this.props.task.id, value);  
   }
 
   render(){
     if(this.props.task.progress){
-      document.getElementById("progressInput").value = this.props.task.progress;
+      document.getElementById("progressInput").value = this.props.selected.progress;
     }
     
     return(
@@ -32,5 +37,15 @@ class UpdateProgess extends Component{
     );
   }
 }
+function mapStateToProps(state){
+  return {
+    task: state.selectedTodo,
+    selected: selectTodo(state)
+  }
+}
 
-export default UpdateProgess;
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({ updateTask, selectTask }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateProgess);

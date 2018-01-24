@@ -1,14 +1,14 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { selectTodo } from '../reducers';
 
 class Status extends Component{
   render(){
-    let task, progress;
-    if(this.props.taskDetails){
-      task = this.props.taskDetails;
+    let task, progress, status;    
+    if(this.props.selected){
+      task = this.props.selected;
       progress = {width: task.progress+"%"};
-    }
-    return(
-      <div className="card my-2">
+      status = <div className="card my-2">
         <div className="card-header">{task.title} </div>
         <div className="card-body">
           <ul className="list-group text-left">
@@ -20,9 +20,28 @@ class Status extends Component{
             </li>
           </ul>
         </div>
-      </div>                  
+      </div>
+    }else{
+      status = <div className="card my-2">
+        <div className="card-header">No Task Selected</div>
+        <div className="card-body">
+          <em>Click on a task to see stats</em>
+        </div>
+      </div>
+    }
+    return(
+        <div>
+          { status }
+        </div>              
     );
   }
 }
 
-export default Status;
+function mapStateToProps(state){
+  return {
+    task: state.selectedTodo,
+    selected: selectTodo(state)
+  }
+}
+
+export default connect(mapStateToProps, null)(Status);

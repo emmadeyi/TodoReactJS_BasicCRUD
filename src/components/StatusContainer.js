@@ -4,16 +4,11 @@ import Status from './Status';
 import UpdateProgress from './UpdateProgress';
 
 class StatusContainer extends Component{
-  render(){    
-    let taskDetails;
-    if(this.props.taskDetails){
-      taskDetails = this.props.taskDetails;
-    }
-    
+  render(){  
     return(
       <div className="col-md-4 my-2">
-        <UpdateProgress task={taskDetails} updateTask={this.props.updateTask}/>
-        <Status taskDetails={taskDetails}/>
+        <UpdateProgress/>
+        <Status />
       </div>
     );
   }

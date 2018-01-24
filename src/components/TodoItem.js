@@ -1,17 +1,15 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { deleteTaskFromTodos, selectTask } from '../actions';
 
 class TodoItem extends Component{
   
-
-  deleteTask(id){
-    this.props.deleteTask_passFinal(id);
-  }
-
-  selectTask(task){
+  select(task){
     this.props.selectTask(task);
   }
 
-  render(){
+  render(){    
     let task;
     if(this.props.task){
       task = this.props.task;
@@ -20,11 +18,11 @@ class TodoItem extends Component{
     let progress_style_width = { width : progress+"%" };   
 
     return(      
-      <li className="list-group-item" onClick={this.selectTask.bind(this, task)} >
+      <li className="list-group-item"  >
         <div className="row">
-          <div className="col-md-6 my-2" >
+          <div className="col-md-6 my-2" onClick={this.select.bind(this, task)}>
             {task.title}
-                </div>
+          </div>
           <div className="col-md-6 my-2">
             <div className="row">
               <div className="col-md-9 my-2">
@@ -33,7 +31,7 @@ class TodoItem extends Component{
                 </div>
               </div>
               <div className="col-md-3">
-                <button className="btn btn-sm btn-danger"><i className="fa fa-trash-o" onClick={this.deleteTask.bind(this, task.id)}></i></button>
+                <button className="btn btn-sm btn-danger"><i className="fa fa-trash-o" onClick={() => this.props.deleteTaskFromTodos(task.id)}></i></button>
               </div>
             </div>            
           </div>
@@ -43,4 +41,9 @@ class TodoItem extends Component{
   }
 }
 
-export default TodoItem;
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({deleteTaskFromTodos, selectTask}, dispatch);
+}
+
+
+export default connect(null, mapDispatchToProps)(TodoItem);

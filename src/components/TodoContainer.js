@@ -7,8 +7,8 @@ class TodoContainer extends Component{
   render(){    
     return(
       <div className="col-md-8 my-2">
-        <TodoForm addTask_pass={this.props.addTask}/>
-        <TodoList todosList={ this.props.todos } deleteTask_pass={this.props.deleteTask} selectTask={this.props.selectTodo}/>
+        <TodoForm />
+        <TodoList />
       </div>
     );
   }

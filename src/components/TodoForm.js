@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import uuid from 'uuid';
+import { connect } from 'react-redux';
+import { addTaskToTodos } from '../actions';
+import { bindActionCreators } from 'redux';
 
 class TodoForm extends Component{
   constructor(){
@@ -15,18 +18,14 @@ class TodoForm extends Component{
     if(this.refs.task.value === ""){
       alert("Enter Title in task field");
     }else{
-      this.setState({
-        newTodo: {
-          id: uuid.v1(),
-          title : this.refs.task.value,
-          date : this.refs.date.value,
-          progress : this.refs.progress.value
-        }
-      }, function(){
-        this.props.addTask_pass(this.state.newTodo);        
-      });
-    }
-    
+      let task = {
+        id: uuid.v1(),
+        title : this.refs.task.value,
+        date : this.refs.date.value,
+        progress : this.refs.progress.value
+      };
+      this.props.addTaskToTodos(task);      
+    }    
   }
 
   render(){
@@ -58,4 +57,8 @@ class TodoForm extends Component{
   }
 }
 
-export default TodoForm;
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({ addTaskToTodos }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps) (TodoForm);

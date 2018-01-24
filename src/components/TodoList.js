@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import TodoItem from "./TodoItem";
+import { connect } from 'react-redux';
 
 class TodoList extends Component{  
 
   render(){
     
     let todoItems;
-    if(this.props.todosList){
-      todoItems = this.props.todosList.map(todo => {
+    if(this.props.todos){
+      todoItems = this.props.todos.map(todo => {
         return(
-          <TodoItem key={todo.title} task={todo} deleteTask_passFinal={this.props.deleteTask_pass} selectTask={this.props.selectTask}/>
+          <TodoItem key={todo.title} task={todo}/>
         );
       })
     }else{
@@ -29,4 +30,10 @@ class TodoList extends Component{
   }
 }
 
-export default TodoList;
+function mapStateToProps(state){
+  return {
+    todos: state.todos
+  }
+}
+
+export default connect(mapStateToProps, null)(TodoList);
